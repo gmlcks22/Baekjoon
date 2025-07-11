@@ -1,6 +1,19 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
+// 삼각형의 세 변을 오름차순 정렬
+void sort_sides(int arr[], int size) {
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				int temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
+}
+
 
 int main(void) {
 	while (true) {
@@ -11,32 +24,12 @@ int main(void) {
 		}
 
 		// 종료 조건 확인
-		if (sides[0] == 0) return 0;
+		if (sides[0] == 0) break;
 
-		// 삼각형 조건 탐색 ~
-		int max = sides[0];
-		int max_order = 0;	
-
-		// 가장 길이가 긴 변 구하기
-		for (int i = 0; i < 3; i++) {
-			if (sides[i] > max) {
-				max = sides[i];
-				max_order = i;
-			}
-		}
-		
-		// 가장 길이가 긴 변 이외의 나머지 두 변 구하기
-		int remaining_sides[2];	// 나머지 두 변의 길이
-		int j = 0;	// 삼각형의 n번 변
-		for (int i = 0; i < 3; i++) {
-			if (i != max_order) {
-				remaining_sides[j] = sides[i];
-				j++;
-			}
-		}
+		sort_sides(sides, 3);	// 변의 길이 정렬
 
 		// 삼각형 조건 만족 여부 확인
-		if (max >= remaining_sides[0] + remaining_sides[1]) {
+		if (sides[2] >= sides[0] + sides[1]) {
 			printf("Invalid\n");
 		}
 		// 정삼각형 조건 만족 여부 확인
@@ -52,4 +45,6 @@ int main(void) {
 			printf("Scalene\n");
 		}
 	}
+
+	return 0;
 }
